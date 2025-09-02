@@ -16,6 +16,16 @@ export const WEEKS_PER_MONTH = 4.34524;
 export const PENSION_PERCENTAGE = 0.25;
 export const HEALTH_PERCENTAGE = 0.1;
 export const INCOME_TAX_PERCENTAGE = 0.1;
+
+// TVA standard
+export const VAT_RATE = 0.21;
+
+// CASS caps (in multiples of minimum wage)
+export const HEALTH_CAP_MIN_WAGES = 6;
+export const HEALTH_CAP_MAX_WAGES_BEFORE_CHANGE = 60;
+export const HEALTH_CAP_MAX_WAGES_AFTER_CHANGE = 72;
+export const HEALTH_CAP_CHANGE_YEAR = 2026;
+
 export const BASE_CURRENCY = 'RON';
 export const CURRENCIES = [BASE_CURRENCY, 'EUR', 'USD', 'GBP', 'CHF', 'CAD', 'AUD'];
 export const EXCHANGE_RATES_RELOAD_INTERVAL = 3_600_000;

@@ -36,3 +36,26 @@ If you need help with your project, don't hesitate to contact me at the email ad
 ## License
 
 The code in this repository is licensed under the [MIT License](LICENSE).
+
+## Run with Docker
+
+Production static export served by Nginx on port 8080.
+
+Using Docker Compose:
+```sh
+docker compose build
+docker compose up -d
+# then open http://localhost:8080
+```
+
+Using plain Docker:
+```sh
+docker build -t taxepfa .
+docker run --rm -p 8080:80 taxepfa
+# then open http://localhost:8080
+```
+
+Notes:
+- The image is built via a multi-stage build defined in Dockerfile and served by Nginx.
+- Rebuild after code changes: `docker compose build --no-cache` (or bump the image tag).
+- Build context is slimmed with .dockerignore; node_modules/.next/out aren’t sent to Docker.

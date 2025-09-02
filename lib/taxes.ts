@@ -6,6 +6,11 @@ import {
   PENSION_PERCENTAGE,
   WEEKS_PER_MONTH,
   WEEKS_PER_YEAR,
+  HEALTH_CAP_MIN_WAGES,
+  HEALTH_CAP_MAX_WAGES_BEFORE_CHANGE,
+  HEALTH_CAP_MAX_WAGES_AFTER_CHANGE,
+  HEALTH_CAP_CHANGE_YEAR,
+  YEAR,
 } from './config';
 import { ExchangeRates, useExchangeRates } from './exchangeRates';
 import { State } from './state';
@@ -61,9 +66,12 @@ export function calculateTaxes({
 
   // calculate the health tax amount (CASS) and percentage of the gross income
   let healthTaxAmountInBaseCurrency = 0;
-  if (income >= minimumWage * 60) healthTaxAmountInBaseCurrency = minimumWage * 60 * HEALTH_PERCENTAGE;
-  else if (income >= minimumWage * 6) healthTaxAmountInBaseCurrency = income * HEALTH_PERCENTAGE;
-  else healthTaxAmountInBaseCurrency = minimumWage * 6 * HEALTH_PERCENTAGE;
+  const healthCapMaxMultiplier =
+    YEAR >= HEALTH_CAP_CHANGE_YEAR ? HEALTH_CAP_MAX_WAGES_AFTER_CHANGE : HEALTH_CAP_MAX_WAGES_BEFORE_CHANGE;
+  if (income >= minimumWage * healthCapMaxMultiplier)
+    healthTaxAmountInBaseCurrency = minimumWage * healthCapMaxMultiplier * HEALTH_PERCENTAGE;
+  else if (income >= minimumWage * HEALTH_CAP_MIN_WAGES) healthTaxAmountInBaseCurrency = income * HEALTH_PERCENTAGE;
+  else healthTaxAmountInBaseCurrency = minimumWage * HEALTH_CAP_MIN_WAGES * HEALTH_PERCENTAGE;
   const healthTaxPercentage = (healthTaxAmountInBaseCurrency / grossIncomeInBaseCurrency) * 100;
 
   // calculate the taxable income and make sure it's not negative

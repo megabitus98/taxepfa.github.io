@@ -3,7 +3,15 @@ import { IconInfoCircle } from '@tabler/icons-react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSnapshot } from 'valtio';
-import { BASE_CURRENCY } from '~/lib/config';
+import {
+  BASE_CURRENCY,
+  VAT_RATE,
+  YEAR,
+  HEALTH_CAP_MIN_WAGES,
+  HEALTH_CAP_MAX_WAGES_BEFORE_CHANGE,
+  HEALTH_CAP_MAX_WAGES_AFTER_CHANGE,
+  HEALTH_CAP_CHANGE_YEAR,
+} from '~/lib/config';
 import { ExchangeRates } from '~/lib/exchangeRates';
 import { formatAsBaseCurrency, formatExchangeRate } from '~/lib/format';
 import { state } from '~/lib/state';
@@ -59,6 +67,15 @@ export function SettingsInfoCard({
         )}
         <Text {...commonTextProps}>
           Salariul minim pe economie <span className="nowrap">este de {formatAsBaseCurrency(minimumWage)}</span>.
+        </Text>
+        <Text {...commonTextProps}>
+          Cota standard de TVA este {Math.round(VAT_RATE * 100)}%.
+        </Text>
+        <Text {...commonTextProps}>
+          Plafonul de TVA crește la <span className="nowrap">{formatAsBaseCurrency(395_000)}</span> începând cu 1 septembrie 2025. PFA-urile care facturează peste acest prag devin plătitoare de TVA.
+        </Text>
+        <Text {...commonTextProps}>
+          Plafonul maxim anual pentru CASS crește de la {HEALTH_CAP_MAX_WAGES_BEFORE_CHANGE} la {HEALTH_CAP_MAX_WAGES_AFTER_CHANGE} salarii minime (aplicabil veniturilor din {HEALTH_CAP_CHANGE_YEAR}). Valoarea curentă: <span className="nowrap">{formatAsBaseCurrency(minimumWage * HEALTH_CAP_MAX_WAGES_BEFORE_CHANGE)}</span>; după modificare: <span className="nowrap">{formatAsBaseCurrency(minimumWage * HEALTH_CAP_MAX_WAGES_AFTER_CHANGE)}</span>.
         </Text>
         {usedExchangeRatesCount > 0 && (
           <Text {...commonTextProps}>
